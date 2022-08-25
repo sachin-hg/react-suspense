@@ -6,24 +6,15 @@
  *
  */
 
-import {useEffect, useState, useTransition} from 'react'
+import {useEffect, useState} from 'react'
 import {useData2} from './data';
 
 export default function Comments2() {
   const s = useState(true)
   const comments = useData2();
-  // const c = useTransition()
-  // const isTransition = c[0]
-  // const startTransition = c[1]
 
   useEffect(() => {
-    // startTransition(() => {
-    //   console.log('sdfsd')
-    //   s[1](false)
-    // });
-    // setTimeout(() => {
       s[1](false)
-    // }, 1000)
   }, [])
 
   if (s[0]) {

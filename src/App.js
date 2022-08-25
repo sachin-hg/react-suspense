@@ -14,9 +14,8 @@ import Layout from './Layout';
 import NavBar from './NavBar';
 import P from './Post'
 
-const Comments = lazy(() => import('./Comments' /* webpackPrefetch: true */));
-const Comments2 = lazy(() => import('./Comments2' /* webpackPrefetch: true */));
-const Sidebar = lazy(() => import('./Sidebar' /* webpackPrefetch: true */));
+const Comments2 = lazy(() => import('./Comments2'));
+const Sidebar = lazy(() => import('./Sidebar'));
 // const Post = lazy(() => import('./Post' /* webpackPrefetch: true */));
 const Post = lazy(() => {
         const a = {
@@ -55,12 +54,6 @@ function Content() {
                 <Suspense fallback={<Spinner/>}>
                     <Post/>
                 </Suspense>
-                <section className="comments">
-                    <h2>Comments</h2>
-                    <Suspense fallback={<Spinner/>}>
-                        <Comments/>
-                    </Suspense>
-                </section>
                 <section className="comments">
                     <h2>Comments2</h2>
                     <Suspense fallback={<Spinner/>}>

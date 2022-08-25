@@ -25,6 +25,14 @@ const {JS_BUNDLE_DELAY} = require('./delays');
 const PORT = process.env.PORT || 4000;
 const app = express();
 
+// When using Suspense with SSR, if a component under suspense boundary uses useEffect to change some rendering
+// and in that scenario if we delay the JS file [until the complete HTML from server has downloaded] which calls "hydrateRoot" then hydration fails
+// this is a problem since we cant always guarantee if our JS bundles will always be loaded before HTML stream has completed [network delays!]
+
+// no js is delayed - JS_BUNDLE_DELAY = 0 - works fine
+// all js is delayed - JS_BUNDLE_DELAY = 1100 - page break [basically hydration started after complete HTML was loaded from server]
+// only Comment2 [0.main.js] JS bundle is delayed - works fine - because hydrateRoot was called before HTML streaming completed
+
 app.use((req, res, next) => {
   if (req.url.endsWith('main.js')) {
     // Artificially delay serving JS
