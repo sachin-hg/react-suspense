@@ -19,6 +19,12 @@ export function DataProvider2({children, data}) {
   return <DataContext2.Provider value={data}>{children}</DataContext2.Provider>;
 }
 
+export const DataContext3 = createContext({});
+
+export function DataProvider3({children, data}) {
+  return <DataContext3.Provider value={data}>{children}</DataContext3.Provider>;
+}
+
 // In a real implementation the data would be streamed with the HTML.
 // We haven't integrated this part yet, so we'll just use fake data.
 

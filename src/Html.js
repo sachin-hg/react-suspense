@@ -14,7 +14,7 @@ export default function Html({ assets, children, title }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" href="favicon.ico" />
         {/*<link rel="stylesheet" href={assets["main.css"]} />*/}
-          <script src={assets['main.js']} async></script>
+        {/*  <script src={assets['main.js']} async></script>*/}
         <title>{title}</title>
       </head>
       <body>

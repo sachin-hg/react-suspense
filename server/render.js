@@ -9,7 +9,7 @@
 import * as React from "react";
 import { renderToPipeableStream } from "react-dom/server";
 import App from "../src/App";
-import { DataProvider, DataProvider2 } from "../src/data";
+import { DataProvider, DataProvider2, DataProvider3 } from "../src/data";
 import { API_DELAY, ABORT_DELAY } from "./delays";
 
 // In a real setup, you'd read it from webpack build stats.
@@ -29,9 +29,11 @@ module.exports = function render(url, res) {
   const data2 = createServerData2();
 
   const stream = renderToPipeableStream(
+      <DataProvider3 data={{}}>
       <DataProvider2 data={data2}>
         <App assets={assets} />
-      </DataProvider2>,
+      </DataProvider2>
+    </DataProvider3>,
     {
 
       onShellReady() {
@@ -40,6 +42,9 @@ module.exports = function render(url, res) {
         res.setHeader("Content-type", "text/html");
         stream.pipe(res);
       },
+      onAllReady() {
+       //  stream.pipe(res);
+      },
       onError(x) {
         didError = true;
         console.error(x);
@@ -47,6 +52,7 @@ module.exports = function render(url, res) {
       bootstrapScripts: [assets['main.js']]
     }
   );
+
   // Abandon and switch to client rendering if enough time passes.
   // Try lowering this to see the client recover.
   setTimeout(() => stream.abort(), ABORT_DELAY);

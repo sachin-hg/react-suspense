@@ -15,6 +15,7 @@ import NavBar from './NavBar';
 import P from './Post'
 
 const Comments2 = lazy(() => import('./Comments2'));
+
 const Sidebar = lazy(() => import('./Sidebar'));
 // const Post = lazy(() => import('./Post' /* webpackPrefetch: true */));
 const Post = lazy(() => {
@@ -56,8 +57,11 @@ function Content() {
                 </Suspense>
                 <section className="comments">
                     <h2>Comments2</h2>
+                    {/*<Suspense fallback={<Spinner/>}>*/}
+                    {/*    <Comments2 val={987655} time={4000}/>*/}
+                    {/*</Suspense>*/}
                     <Suspense fallback={<Spinner/>}>
-                        <Comments2/>
+                        <Comments2 val={123456} time={1000}/>
                     </Suspense>
                 </section>
                 <h2>Thanks for reading!</h2>
