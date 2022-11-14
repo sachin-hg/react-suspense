@@ -6,76 +6,32 @@
  *
  */
 
-import {useEffect, useState, useId, useContext, useMemo} from 'react'
-import {DataContext3} from './data'
-import {useData2} from './data';
-
-const useServerEffect = (cb) => {
-    const promises = useContext(DataContext3)
-    const id = useId()
-    const pr = promises[id]
-    console.log(id, promises[id])
-    if (pr && pr.done) {
-        return pr.value
+import {useState} from 'react'
+const time = typeof window !== 'undefined' ? 5000 : 15
+let done
+const useX = function () {
+    console.log(done, 'sdfsd')
+    if (done === true) {
+        return
     }
-    if (pr === undefined) {
-        const promise = cb()[0]
-        if (promise && promise.then) {
-            promise.then((x) => {
-                promises[id] = {done: true, value: x}
-            })
-            promises[id] = promise
-            throw promise
-        }
+    let promise = done
+    if (!promise) {
+        promise = new Promise(res => setTimeout(() => {
+            done = true
+            res()
+        }, time))
     }
-    throw pr
+    throw promise
 }
-
-const useD = (d1) => {
-    const d = useMemo( () => d1, [])
-    return d
-}
-
-let x = 0
-const getD = () => {
-    x++
-    return x
-}
-export default function Comments2({val: value, time}) {
+export default function Comments2() {
  const s = useState(0)
-    const id = useId()
-    const d = useD(getD())
-    console.log(d, 'heelo', id)
   const val = s[0]
   const setVal = s[1]
-  const comments = useData2();
- const x = useServerEffect(() => {
-     const promise = new Promise((res, rej) => {
-         setTimeout(() => {
-             res(value)
-         }, time)
-     })
-     return [promise]
- })
-  // if (typeof window === 'undefined') {
-  //   throw Promise.reject()
-  // }
-  // useEffect(() => {
-  //     s[1](false)
-  // }, [])
-  //
-  // if (s[0]) {
-  //   return <div>..</div>
-  // }
+
+    useX()
 
   return (
     <>
-      {comments.map((comment, i) => (
-        <p className="comment" key={i}>
-          {comment}
-        </p>
-      ))}
-        {x}
       <div onClick={() => setVal(val + 1)}>click {val}</div>
     </>
   );

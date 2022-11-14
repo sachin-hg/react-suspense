@@ -6,29 +6,13 @@
  *
  */
 
-import React, {Suspense, lazy} from 'react';
+import React, {Suspense, useState} from 'react';
 import {ErrorBoundary} from 'react-error-boundary';
 import Html from './Html';
 import Spinner from './Spinner';
 import Layout from './Layout';
 import NavBar from './NavBar';
-import P from './Post'
-
-const Comments2 = lazy(() => import('./Comments2'));
-
-const Sidebar = lazy(() => import('./Sidebar'));
-// const Post = lazy(() => import('./Post' /* webpackPrefetch: true */));
-const Post = lazy(() => {
-        const a = {
-            catch: () => a,
-            then: b => {
-                b({default: P});
-                return a;
-            }
-        }
-        return a
-    }
-)
+import Comments2 from "./Comments2";
 
 export default function App({assets}) {
     return (
@@ -43,28 +27,22 @@ export default function App({assets}) {
 }
 
 function Content() {
+    const s = useState(0)
+    const val = s[0]
+    const setVal = s[1]
     return (
         <Layout>
             <NavBar/>
             <aside className="sidebar">
-                <Suspense fallback={<Spinner/>}>
-                    <Sidebar/>
-                </Suspense>
             </aside>
             <article className="post">
-                <Suspense fallback={<Spinner/>}>
-                    <Post/>
-                </Suspense>
-                <section className="comments">
                     <h2>Comments2</h2>
-                    {/*<Suspense fallback={<Spinner/>}>*/}
-                    {/*    <Comments2 val={987655} time={4000}/>*/}
-                    {/*</Suspense>*/}
-                    <Suspense fallback={<Spinner/>}>
-                        <Comments2 val={123456} time={1000}/>
+                    <Suspense>
+                        <Comments2 />
+                        <div onClick={() => setVal(val + 1)}>hello
+                            <h2>sdfsdf{val}</h2>
+                        </div>
                     </Suspense>
-                </section>
-                <h2>Thanks for reading!</h2>
             </article>
         </Layout>
     );

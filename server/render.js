@@ -60,10 +60,24 @@ module.exports = function render(url, res) {
 
 
 function createServerData2() {
+  let count = 0
   let done = false;
   let promise = null;
   return {
     read() {
+      if (count === 4) {
+        return
+      }
+      promise = new Promise((resolve) => {
+        setTimeout(() => {
+          count++
+          resolve();
+        }, 1500);
+      });
+      throw promise;
+
+
+
       if (done) {
         return;
       }
